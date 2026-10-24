@@ -21,10 +21,12 @@ build/
 data/*
 !data/.gitkeep
 
-# Model weights (keep folder via .gitkeep)
+# Model weights (keep folder via .gitkeep).
+# model/model.pth is stored with Git LFS, so it is not ignored.
 model/*
 !model/.gitkeep
 *.pt
 *.pth
 *.ckpt
 *.onnx
+!model/model.pth
