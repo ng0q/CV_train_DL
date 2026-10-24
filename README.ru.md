@@ -15,13 +15,13 @@
 
 Датасет — CIFAR-10: **50 000** обучающих изображений и **10 000** тестовых. Ноутбуки качают его с Kaggle ([`pankrzysiu/cifar10-python`](https://www.kaggle.com/datasets/pankrzysiu/cifar10-python)) и кладут батчи в `data/cifar-10-batches-py`. Архив torchvision в этом окружении был битый, поэтому загрузка идёт через `kagglehub`.
 
-Смысл репозитория — сравнение. Одна и та же задача на 10 классов обучена тремя способами: Conv2d из питоновских циклов, небольшая CNN на PyTorch и ResNet-18, подогнанный под 32×32. Сохранён именно ResNet-18, и его грузит API.
+Смысл репозитория — сравнение. Одна и та же задача на 10 классов обучена тремя способами: Conv2d из питоновских циклов, небольшая CNN на PyTorch и ResNet-18, подогнанный под 32×32. В API стоит ResNet-18 как демонстрация transfer learning: веса ImageNet, дообучены `conv1`, `bn1`, `layer4` и `fc`, остальная сеть заморожена.
 
-Прогоны лежат в [`notebook/conv.ipynb`](notebook/conv.ipynb) (NumPy) и [`notebook/cifar.ipynb`](notebook/cifar.ipynb) (SimpleCNN и ResNet-18). [`notebook/train.ipynb`](notebook/train.ipynb) — ранняя двухслойная сеть на `make_moons`. К сравнению на CIFAR она не относится.
+Прогоны лежат в [`notebook/conv.ipynb`](notebook/conv.ipynb) (NumPy) и [`notebook/cifar.ipynb`](notebook/cifar.ipynb) (SimpleCNN и ResNet-18). [`notebook/train.ipynb`](notebook/train.ipynb) — ранняя двухслойная сеть на `make_moons`, к этому проекту она не относится.
 
 ## Результаты
 
-Цифры PyTorch — точность на официальном тестовом сплите CIFAR-10. В ноутбуках она печатается как `val_acc`, и этот сплит считается каждую эпоху, то есть по нему же смотрели обучение. Прогон на NumPy тестовую точность не считал.
+Цифры PyTorch — точность на официальном тестовом сплите CIFAR-10. В ноутбуках она печатается как `val_acc`, и эта подпись оптимистичная: в лоадере лежит тест, и тот же сплит считается каждую эпоху. Это test accuracy, которую видно прямо во время обучения, а не оценка на отдельной валидации. Прогон на NumPy тестовую точность не считал.
 
 | Модель | Обучающие данные | Эпохи | Итоговая метрика |
 | --- | ---: | ---: | --- |
@@ -35,7 +35,7 @@ ResNet-18, эпоха 29: train loss 0.4678, test loss 0.4627, accuracy 0.8427. 
 
 NumPy, эпоха 9: train loss 0.8769 на подвыборке из 500 изображений.
 
-API отдаёт ResNet-18, веса из `model/model.pth`. SimpleCNN на этом сплите выше (85.65% против 84.27%), её веса не сохранялись. Цифра ResNet — это 30 эпох частичного дообучения. Цифра SimpleCNN — 100 эпох с нуля.
+API отдаёт ResNet-18, веса из `model/model.pth`, как демонстрацию transfer learning. SimpleCNN на этом сплите выше (85.65% против 84.27%), её веса не сохранялись. Цифра ResNet — это 30 эпох частичного дообучения с ImageNet. Цифра SimpleCNN — 100 эпох с нуля.
 
 ## Почему NumPy-CNN медленная
 
@@ -105,7 +105,7 @@ CV_train_DL/
 ├── notebook/
 │   ├── conv.ipynb        NumPy CNN
 │   ├── cifar.ipynb       SimpleCNN и ResNet-18
-│   └── train.ipynb       ранняя MLP на make_moons
+│   └── train.ipynb       не относится к проекту (ранняя MLP на make_moons)
 ├── model/
 │   └── model.pth         веса ResNet-18 (Git LFS)
 ├── data/                 батчи CIFAR-10 (не в git)
