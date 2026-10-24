@@ -15,13 +15,13 @@ The project assigns one of 10 classes to a 32×32 RGB image: airplane, automobil
 
 The dataset is CIFAR-10: **50,000** training images and **10,000** test images. The notebooks pull it from Kaggle ([`pankrzysiu/cifar10-python`](https://www.kaggle.com/datasets/pankrzysiu/cifar10-python)) and place the batches in `data/cifar-10-batches-py`. The torchvision archive in this environment was incomplete, so the download goes through `kagglehub`.
 
-The point of the repo is the comparison. The same 10-way task is trained three ways: a Conv2d written as Python loops, a small PyTorch CNN, and a ResNet-18 adapted to 32×32. The checkpoint that was actually saved is ResNet-18, and that is what the API loads.
+The point of the repo is the comparison. The same 10-way task is trained three ways: a Conv2d written as Python loops, a small PyTorch CNN, and a ResNet-18 adapted to 32×32. ResNet-18 is the model in the API because it demonstrates transfer learning: ImageNet weights, with `conv1`, `bn1`, `layer4`, and `fc` fine-tuned and the rest of the network frozen.
 
-The runs live in [`notebook/conv.ipynb`](notebook/conv.ipynb) (NumPy) and [`notebook/cifar.ipynb`](notebook/cifar.ipynb) (SimpleCNN and ResNet-18). [`notebook/train.ipynb`](notebook/train.ipynb) is an earlier two-layer net on `make_moons`. It is not part of the CIFAR comparison.
+The runs live in [`notebook/conv.ipynb`](notebook/conv.ipynb) (NumPy) and [`notebook/cifar.ipynb`](notebook/cifar.ipynb) (SimpleCNN and ResNet-18). [`notebook/train.ipynb`](notebook/train.ipynb) is an earlier two-layer net on `make_moons` and is not part of this project.
 
 ## Results
 
-PyTorch numbers are accuracy on the official CIFAR-10 test split. The notebooks print it as `val_acc`, and that split is scored every epoch, so it was also the split used to watch training. The NumPy run never computed test accuracy.
+PyTorch numbers are accuracy on the official CIFAR-10 test split. The notebooks print it as `val_acc`, and that label is optimistic: the loader is the test set, and the same split is scored every epoch, so the figure is test accuracy seen during training, not a held-out validation score. The NumPy run never computed test accuracy.
 
 | Model | Train data | Epochs | Final metric |
 | --- | ---: | ---: | --- |
@@ -35,7 +35,7 @@ ResNet-18, epoch 29: train loss 0.4678, test loss 0.4627, accuracy 0.8427. That 
 
 NumPy, epoch 9: train loss 0.8769 on the 500-image subset.
 
-The API serves ResNet-18, the weights in `model/model.pth`. SimpleCNN is ahead on this split (85.65% against 84.27%) and its weights were not saved. The ResNet number is 30 epochs of partial fine-tuning. The SimpleCNN number is 100 epochs from scratch.
+The API serves ResNet-18, the weights in `model/model.pth`, as the transfer-learning demonstration. SimpleCNN is ahead on this split (85.65% against 84.27%) and its weights were not saved. The ResNet number is 30 epochs of partial fine-tuning from ImageNet. The SimpleCNN number is 100 epochs from scratch.
 
 ## Why the NumPy CNN is slow
 
@@ -105,7 +105,7 @@ CV_train_DL/
 ├── notebook/
 │   ├── conv.ipynb        NumPy CNN
 │   ├── cifar.ipynb       SimpleCNN and ResNet-18
-│   └── train.ipynb       earlier MLP on make_moons
+│   └── train.ipynb       not part of this project (earlier MLP on make_moons)
 ├── model/
 │   └── model.pth         ResNet-18 weights (Git LFS)
 ├── data/                 CIFAR-10 batches (not in git)
