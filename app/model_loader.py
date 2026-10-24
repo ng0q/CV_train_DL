@@ -26,7 +26,7 @@ def load_artifacts() -> None:
     if not MODEL_PATH.exists():
         raise FileNotFoundError(
             f"Model not found: {MODEL_PATH.resolve()}. "
-            f"Start `python -m src.train` before."
+            "Run `git lfs pull` to fetch model/model.pth."
         )
 
     net = models.resnet18(weights=None)

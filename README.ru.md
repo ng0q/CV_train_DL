@@ -112,6 +112,7 @@ CV_train_DL/
 ├── Dockerfile
 ├── .dockerignore
 ├── requirements.txt
+├── LICENSE
 ├── README.md
 └── README.ru.md
 ```
@@ -192,7 +193,10 @@ curl -X POST http://127.0.0.1:8000/predict \
 - Разморозить больше слоёв ResNet-18, если цель — обойти 85.65% у SimpleCNN
 - Тесты на `/health`, проверку типа файла и лимит 5 МБ
 - docker-compose, чтобы не помнить флаги `docker run`
-- Ошибка загрузчика до сих пор советует `python -m src.train`. Такого модуля нет. Веса — это `model/model.pth`
+
+## Лицензия
+
+[MIT](LICENSE) © 2026 Илья Рябец.
 
 ## Автор
 

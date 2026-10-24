@@ -112,6 +112,7 @@ CV_train_DL/
 ├── Dockerfile
 ├── .dockerignore
 ├── requirements.txt
+├── LICENSE
 ├── README.md
 └── README.ru.md
 ```
@@ -192,7 +193,10 @@ Example response:
 - Unfreeze more of ResNet-18 if the goal is to pass SimpleCNN's 85.65%
 - Tests for `/health`, the file-type check, and the 5 MB limit
 - docker-compose, so the `docker run` flags do not have to be remembered
-- The loader error still tells you to run `python -m src.train`. This repo has no such module. The weights are `model/model.pth`
+
+## License
+
+[MIT](LICENSE) © 2026 Ilya Ryabets.
 
 ## Author
 
